@@ -50,7 +50,9 @@ export class Application extends Construct {
 
     // Docker bundle
     new DockerPrismaFunction(this, "DockerHandler", {
-      code: DockerImageCode.fromImageAsset("./backend", { platform: Platform.LINUX_AMD64 }),
+      code: DockerImageCode.fromImageAsset("./backend", {
+        platform: Platform.LINUX_AMD64
+      }),
       memorySize: 256,
       timeout: cdk.Duration.seconds(15),
       vpc,
