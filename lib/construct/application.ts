@@ -26,7 +26,7 @@ export class Application extends Construct {
     });
 
     // Zip bundle
-    const handler = new PrismaFunction(this, "Handler", {
+    new PrismaFunction(this, "Handler", {
       entry: "./backend/handler.ts",
       memorySize: 256,
       runtime: Runtime.NODEJS_20_X,
@@ -37,7 +37,7 @@ export class Application extends Construct {
       depsLockFilePath: "./backend/package-lock.json",
     });
 
-    const migrationRunner = new PrismaFunction(this, "MigrationRunner", {
+    new PrismaFunction(this, "MigrationRunner", {
       entry: "./backend/migration-runner.ts",
       memorySize: 256,
       runtime: Runtime.NODEJS_20_X,
@@ -49,7 +49,7 @@ export class Application extends Construct {
     });
 
     // Docker bundle
-    new DockerPrismaFunction(this, "DockerHandler", {
+    const handler = new DockerPrismaFunction(this, "DockerHandler", {
       code: DockerImageCode.fromImageAsset("./backend", {
         platform: Platform.LINUX_AMD64
       }),
@@ -60,7 +60,7 @@ export class Application extends Construct {
       database,
     });
 
-    new DockerPrismaFunction(this, "DockerMigrationRunner", {
+    const migrationRunner = new DockerPrismaFunction(this, "DockerMigrationRunner", {
       code: DockerImageCode.fromImageAsset("./backend", {
         cmd: ["migration-runner.handler"],
         platform: Platform.LINUX_AMD64,
